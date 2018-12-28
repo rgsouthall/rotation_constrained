@@ -94,13 +94,13 @@ class MESH_OT_rotation_constrained(bpy.types.Operator):
 
             for vl, vertlist in enumerate(vertlists):                
                 for v in vertlist:
-                    if context.scene.transform_orientation == 'LOCAL':
+                    if context.scene.transform_orientation_slots[0].type == 'LOCAL':
                         vmax = max([v.co[posindex] for v in vertlist])
                         vmin = min([v.co[posindex] for v in vertlist])
                         refpos = ((vmin+vmax)/2, vmax, vmin)[int(self.rpoint)]
                         v.co += mathutils.Vector((v.co[posindex] - refpos) * mathutils.Vector((caxis)) * math.tan(float((-1, 1)[(vl > 0) * (self.rmirror)] * self.rdeg) * 0.0174533))
 
-                    elif context.scene.transform_orientation == 'NORMAL':
+                    elif context.scene.transform_orientation_slots[0].type == 'NORMAL':
                         local_caxis = (self.norm_x, self.norm_y, self.norm_z)[int(self.caxis)]
                         local_posaxis = (self.norm_x, self.norm_y, self.norm_z)[posindex]
                         vmax = max([v.co.dot(mathutils.Vector(local_posaxis)) for v in vertlist])
@@ -108,7 +108,7 @@ class MESH_OT_rotation_constrained(bpy.types.Operator):
                         refpos = ((vmin+vmax)/2, vmax, vmin)[int(self.rpoint)]
                         v.co += mathutils.Vector((v.co.dot(mathutils.Vector(local_posaxis)) - refpos) * mathutils.Vector(local_caxis) * math.tan(float((-1, 1)[(vl > 0) * (self.rmirror)] * self.rdeg)*0.0174533))
 
-                    elif context.scene.transform_orientation == 'GLOBAL':
+                    elif context.scene.transform_orientation_slots[0].type == 'GLOBAL':
                         vmax = max([(self.omw@v.co)[posindex] for v in vertlist])
                         vmin = min([(self.omw@v.co)[posindex] for v in vertlist])
                         refpos = ((vmin+vmax)/2, vmax, vmin)[int(self.rpoint)]
