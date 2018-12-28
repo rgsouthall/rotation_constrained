@@ -21,7 +21,8 @@ bl_info = {
     "author": "Ryan Southall",
     "version": (0, 0, 2),
     "blender": (2, 80, 0),
-    "category": "Mesh"}
+    "category": "Mesh",
+    "tracker_url": "https://github.com/rgsouthall/rotation_constrained/issues"}
 
 
 import bpy, math, mathutils, bmesh, numpy
